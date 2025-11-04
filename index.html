@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sweet Memories of Shivansh 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(120deg,#ff9a9e,#fad0c4,#fcb69f,#f6d365);
+  background-size:300% 300%;
+  animation:glowMove 15s ease infinite;
+}
+@keyframes glowMove {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* Floating Hearts */
+@keyframes heartFloat {
+  0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+}
+.heart{
+  position:absolute;
+  bottom:-10px;
+  color:#ff3366;
+  font-size:20px;
+  animation:heartFloat 6s linear infinite;
+}
+.heart:nth-child(3n){color:#ff6699;}
+.heart:nth-child(5n){color:#ff99cc;}
+
+/* Floating Flowers */
+@keyframes flowerFall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+.flower{
+  position:absolute;
+  top:-50px;
+  font-size:24px;
+  color:#fff;
+  animation:flowerFall 8s linear infinite;
+}
+
+/* Fireworks */
+@keyframes explode {
+  0% { transform: scale(0.1); opacity: 1; }
+  80% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.firework{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff,#ffcc00,#ff3366);
+  animation:explode 1.5s ease-out;
+  pointer-events:none;
+}
+
+/* FRONT INTRO PAGE */
+.front-page{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:10;
+  transition:opacity 1s ease;
+}
+.front-page img{
+  width:120px;
+  height:120px;
+  object-fit:contain;
+  border-radius:50%;
+  box-shadow:0 0 20px rgba(255,255,255,0.6);
+  animation:logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse {
+  0%,100% { transform: scale(1); box-shadow:0 0 15px rgba(255,255,255,0.6);}
+  50% { transform: scale(1.1); box-shadow:0 0 30px rgba(255,255,255,0.9);}
+}
+.front-page h1{
+  font-size:2.5rem;
+  color:#c01d1dc6;
+  text-shadow:2px 2px 10px rgba(0,0,0,0.3);
+  margin-top:20px;
+}
+.front-page p{
+  color:#fff;
+  font-size:1.2rem;
+  margin-top:10px;
+  letter-spacing:1px;
+}
+.dob{
+  margin-top:10px;
+  font-size:1rem;
+  color:#000000;
+  background:rgba(222, 3, 3, 0.2);
+  padding:6px 14px;
+  border-radius:20px;
+  backdrop-filter:blur(5px);
+  box-shadow:0 0 15px rgba(255, 103, 103, 0.2);
+  animation:dobGlow 3s ease-in-out infinite;
+}
+@keyframes dobGlow{
+  0%,100%{box-shadow:0 0 10px rgba(255,255,255,0.3);}
+  50%{box-shadow:0 0 20px rgba(255,255,255,0.8);}
+}
+.start-btn{
+  margin-top:30px;
+  background:#fff;
+  color:#f06292;
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  font-size:1.1rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+.start-btn:hover{
+  background:#f06292;
+  color:#fff;
+  transform:scale(1.05);
+}
+
+/* Album Book */
+.book{
+  position:relative;
+  width:360px;
+  height:500px;
+  perspective:1500px;
+  transform-style:preserve-3d;
+  opacity:0;
+  transform:scale(0.95);
+  transition:opacity 1s ease,transform 1s ease;
+  z-index:2;
+}
+.book.visible{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* Pages */
+.page{
+  position:absolute;
+  width:100%;
+  height:100%;
+  transform-origin:left;
+  transition:transform 1s ease-in-out,box-shadow 1s;
+  transform-style:preserve-3d;
+  cursor:grab;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+.page .front,.page .back{
+  position:absolute;
+  width:100%;height:100%;
+  backface-visibility:hidden;
+  border-radius:10px;
+  overflow:hidden;
+}
+.page .front img,.page .back img{
+  width:100%;height:100%;object-fit:cover;
+}
+.page .back{transform:rotateY(180deg);}
+.page.flipped{transform:rotateY(-180deg);box-shadow:-20px 0 40px rgba(0,0,0,0.4);}
+.page.prev-visible::before{
+  content:"";
+  position:absolute;
+  left:-10px;
+  width:10px;
+  height:100%;
+  background:linear-gradient(to left,rgba(0,0,0,0.2),transparent);
+  filter:blur(3px);
+  border-radius:5px;
+  z-index:5;
+}
+
+/* Cover */
+.cover{
+  background:linear-gradient(135deg,#f50057,#ff80ab);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.cover h1{font-size:1.8rem;}
+.cover p{font-size:1rem;}
+
+/* Album Title Overlay */
+.album-title {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  z-index:5;
+}
+.album-title.visible {opacity: 1;}
+
+/* Responsive */
+@media(max-width:480px){
+  .book{width:90vw;height:70vh;}
+  .front-page h1{font-size:2rem;}
+  .album-title{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- Front Intro Page -->
+<div class="front-page" id="frontPage">
+  <img src="logo.jpg" alt="Shivansh Logo">
+  <h1>💖 Sweet Memories of Shivansh 💖</h1>
+  <p>My Little Brother • My Joy • My Forever Smile 🌸</p>
+  <div class="dob">📅 Date of Birth: 22 March 2023</div>
+  <button class="start-btn" onclick="startAlbum()">Open Album</button>
+</div>
+
+<!-- Title Appears Over Album -->
+<div class="album-title" id="albumTitle">💖 Sweet Memories of Shivansh 💖</div>
+
+<!-- 3D Photo Album -->
+<div class="book" id="book"></div>
+
+<script>
+// Create Album Pages
+const totalPhotos = 12;
+const book = document.getElementById("book");
+
+// ✅ Cover Page First
+const coverPage = document.createElement("div");
+coverPage.classList.add("page","cover");
+coverPage.innerHTML = `
+  <div class="front">
+    <h1>💖 Sweet Memories of Shivansh 💖</h1>
+    <p>My Little Brother, My Joy 🌸</p>
+  </div>
+`;
+book.appendChild(coverPage);
+
+// ✅ Photo Pages (no "The End")
+for (let i = 1; i <= totalPhotos; i++) {
+  const page = document.createElement("div");
+  page.classList.add("page");
+  page.innerHTML = `
+    <div class="front"><img src="${i}.jpg" alt="photo${i}"></div>
+    <div class="back"><img src="${i+1 > totalPhotos ? 1 : i+1}.jpg" alt="photo${i+1}"></div>
+  `;
+  book.appendChild(page);
+}
+
+// Floating Backgrounds
+function createHearts(){
+  for(let i=0;i<15;i++){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(3+Math.random()*3)+"s";
+    heart.textContent="💖";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+  }
+}
+setInterval(createHearts,2000);
+
+function createFlowers(){
+  for(let i=0;i<10;i++){
+    const flower=document.createElement("div");
+    flower.classList.add("flower");
+    flower.style.left=Math.random()*100+"vw";
+    flower.textContent="🌸";
+    flower.style.animationDuration=(4+Math.random()*4)+"s";
+    document.body.appendChild(flower);
+    setTimeout(()=>flower.remove(),8000);
+  }
+}
+setInterval(createFlowers,3000);
+
+function createFirework(){
+  const fw=document.createElement("div");
+  fw.classList.add("firework");
+  fw.style.left=Math.random()*100+"vw";
+  fw.style.top=Math.random()*100+"vh";
+  document.body.appendChild(fw);
+  setTimeout(()=>fw.remove(),1500);
+}
+setInterval(createFirework,2000);
+
+// Flip Logic
+const pages = Array.from(book.querySelectorAll(".page"));
+let current = 0;
+function showPage(index){
+  pages.forEach((page,i)=>{
+    if(i<index){ page.classList.add("flipped","prev-visible"); }
+    else{ page.classList.remove("flipped","prev-visible"); }
+  });
+  createFirework();
+}
+book.addEventListener("click",e=>{
+  const rect=book.getBoundingClientRect();
+  const x=e.clientX-rect.left;
+  if(x>rect.width/2 && current<pages.length-1) current++;
+  else if(x<rect.width/2 && current>0) current--;
+  showPage(current);
+});
+
+// Swipe
+let startX=0;
+book.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+book.addEventListener("touchend",e=>{
+  const endX=e.changedTouches[0].clientX;
+  if(endX-startX<-50 && current<pages.length-1) current++;
+  else if(endX-startX>50 && current>0) current--;
+  showPage(current);
+});
+
+// Start Button
+function startAlbum(){
+  document.getElementById("frontPage").style.opacity="0";
+  setTimeout(()=>{
+    document.getElementById("frontPage").style.display="none";
+    book.classList.add("visible");
+    document.getElementById("albumTitle").classList.add("visible");
+  },1000);
+}
+</script>
+</body>
+</html>
